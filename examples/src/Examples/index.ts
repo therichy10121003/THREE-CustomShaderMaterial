@@ -30,6 +30,14 @@ import { Scene as BumpScene } from "./Bump/Scene";
 import fs_bump from "./Bump/fs.glsl?raw";
 import vs_bump from "./Bump/vs.glsl?raw";
 
+import { Scene as GradientScene } from "./Gradient/Scene";
+import fs_gradient from "./Gradient/fs.glsl?raw";
+import vs_gradient from "./Gradient/vs.glsl?raw";
+
+import { Scene as WaveDeformationScene } from "./WaveDeformation/Scene";
+import fs_waveDeformation from "./WaveDeformation/fs.glsl?raw";
+import vs_waveDeformation from "./WaveDeformation/vs.glsl?raw";
+
 export interface ExampleSceneProps {
   fs: string;
   vs: string;
@@ -107,6 +115,22 @@ export const SHADERS: {
     slug: "bump",
     Component: BumpScene,
     label: "Bump",
+    category: "Tech Demos",
+  },
+  GRADIENT: {
+    fs: fs_gradient,
+    vs: vs_gradient,
+    slug: "gradient",
+    Component: GradientScene,
+    label: "Gradient",
+    category: "Tech Demos",
+  },
+  WAVE_DEFORMATION: {
+    fs: fs_waveDeformation,
+    vs: vs_waveDeformation,
+    slug: "wave-deformation",
+    Component: WaveDeformationScene,
+    label: "Wave Deformation",
     category: "Tech Demos",
   },
   // METAL_BUNNY: {

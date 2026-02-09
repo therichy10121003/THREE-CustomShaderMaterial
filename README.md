@@ -116,6 +116,186 @@ npm install three-custom-shader-material
 yarn add three-custom-shader-material
 ```
 
+## Shader Examples
+
+This repository includes several advanced shader examples to demonstrate the capabilities of Custom Shader Material. Each example showcases different techniques for creating dynamic, real-time visual effects.
+
+### Gradient Shader
+
+A dynamic gradient shader featuring parametric deformations and animated lighting effects.
+
+**Features:**
+- Multi-color gradient system that evolves over time
+- Parametric wave deformation along multiple axes
+- Dynamic lighting with animated light sources
+- Rim lighting effects for enhanced visual appeal
+
+**Vertex Shader Techniques:**
+- Sinusoidal deformations along X and Z axes
+- Circular ripple effects from the center
+- Automatic normal recalculation for accurate lighting
+
+**Fragment Shader Techniques:**
+- Time-based gradient color mixing
+- Dynamic directional lighting
+- Fresnel-like rim lighting effects
+
+**Usage Example:**
+
+```jsx
+import CustomShaderMaterial from 'three-custom-shader-material'
+import vertexShader from './gradient/vs.glsl'
+import fragmentShader from './gradient/fs.glsl'
+
+function GradientMesh() {
+  const materialRef = useRef()
+  
+  const uniforms = useMemo(() => ({
+    uTime: { value: 0 },
+    uAmplitude: { value: 0.2 },
+    uColorA: { value: new THREE.Color("#ff6b6b") },
+    uColorB: { value: new THREE.Color("#4ecdc4") },
+    uColorC: { value: new THREE.Color("#ffe66d") },
+    uLightIntensity: { value: 0.7 }
+  }), [])
+  
+  useFrame(({ clock }) => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = clock.elapsedTime
+    }
+  })
+  
+  return (
+    <mesh>
+      <planeGeometry args={[6, 6, 128, 128]} />
+      <CustomShaderMaterial
+        ref={materialRef}
+        baseMaterial={THREE.MeshPhysicalMaterial}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
+        side={THREE.DoubleSide}
+      />
+    </mesh>
+  )
+}
+```
+
+### Wave Deformation Shader
+
+An advanced water-like shader with multiple wave types and foam effects.
+
+**Features:**
+- Multiple wave algorithms (sine, cosine, Gerstner-like, radial ripples)
+- Elevation-based color gradients
+- Dynamic foam generation on wave peaks
+- Multiple animated light sources with specular highlights
+
+**Vertex Shader Techniques:**
+- Combination of primary and secondary wave functions
+- Circular ripple patterns radiating from center
+- Gerstner wave approximation for realistic water motion
+- Accurate surface normal calculation
+
+**Fragment Shader Techniques:**
+- Depth-based color gradients (deep to surface to foam)
+- Multi-light dynamic lighting system
+- Specular highlights with controllable shininess
+- Fresnel effect for water-like appearance
+- Procedural foam generation on wave peaks
+
+**Usage Example:**
+
+```jsx
+import CustomShaderMaterial from 'three-custom-shader-material'
+import vertexShader from './wave-deformation/vs.glsl'
+import fragmentShader from './wave-deformation/fs.glsl'
+
+function WaterMesh() {
+  const materialRef = useRef()
+  
+  const uniforms = useMemo(() => ({
+    uTime: { value: 0 },
+    uWaveHeight: { value: 0.3 },
+    uWaveFrequency: { value: 2.5 },
+    uWaveSpeed: { value: 1.0 },
+    uDeepColor: { value: new THREE.Color("#003d5c") },
+    uSurfaceColor: { value: new THREE.Color("#00a8cc") },
+    uFoamColor: { value: new THREE.Color("#e8f4f8") },
+    uShininess: { value: 32.0 }
+  }), [])
+  
+  useFrame(({ clock }) => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = clock.elapsedTime
+    }
+  })
+  
+  return (
+    <mesh rotation-x={-Math.PI / 2}>
+      <planeGeometry args={[8, 8, 256, 256]} />
+      <CustomShaderMaterial
+        ref={materialRef}
+        baseMaterial={THREE.MeshPhysicalMaterial}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
+        side={THREE.DoubleSide}
+      />
+    </mesh>
+  )
+}
+```
+
+### Integration Guide
+
+**Step 1: Import the shaders**
+
+You can import the shader examples directly from the repository or copy them to your project:
+
+```js
+// Import from files
+import vertexShader from './path/to/vs.glsl?raw'
+import fragmentShader from './path/to/fs.glsl?raw'
+```
+
+**Step 2: Set up uniforms**
+
+Create a uniforms object with the required values. All shader examples use `uTime` for animation:
+
+```js
+const uniforms = useMemo(() => ({
+  uTime: { value: 0 },
+  // Add other uniforms as needed
+}), [])
+```
+
+**Step 3: Update uniforms in animation loop**
+
+Use `useFrame` (in React) or your animation loop to update time-based uniforms:
+
+```js
+useFrame(({ clock }) => {
+  if (materialRef.current) {
+    materialRef.current.uniforms.uTime.value = clock.elapsedTime
+  }
+})
+```
+
+**Step 4: Customize parameters**
+
+Each shader example includes several uniforms you can adjust:
+- Wave amplitude, frequency, and speed
+- Color values for gradients
+- Lighting intensity and shininess
+- Deformation parameters
+
+**Performance Tips:**
+- Use appropriate geometry resolution (higher for more detail, lower for better performance)
+- The shaders are optimized for real-time rendering
+- Consider using lower resolution on mobile devices
+- Memoize uniform objects to prevent unnecessary re-renders
+
 ## Output Variables
 
 CSM provides the following output variables, all of them are optional but you MUST use these variables like you would use standard GLSL output variables to see results.
