@@ -73,13 +73,13 @@ export function Scene() {
       uTime: { value: 0 },
       uAmplitude: { value: amplitude },
       uColorA: {
-        value: new THREE.Color("#ff6b6b").convertLinearToSRGB(),
+        value: new THREE.Color("#ff6b6b").convertSRGBToLinear(),
       },
       uColorB: {
-        value: new THREE.Color("#4ecdc4").convertLinearToSRGB(),
+        value: new THREE.Color("#4ecdc4").convertSRGBToLinear(),
       },
       uColorC: {
-        value: new THREE.Color("#ffe66d").convertLinearToSRGB(),
+        value: new THREE.Color("#ffe66d").convertSRGBToLinear(),
       },
       uLightIntensity: { value: lightIntensity },
     }),

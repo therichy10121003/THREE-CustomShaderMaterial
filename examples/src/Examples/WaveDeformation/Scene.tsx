@@ -91,13 +91,13 @@ export function Scene() {
       uWaveFrequency: { value: waveFrequency },
       uWaveSpeed: { value: waveSpeed },
       uDeepColor: {
-        value: new THREE.Color("#003d5c").convertLinearToSRGB(),
+        value: new THREE.Color("#003d5c").convertSRGBToLinear(),
       },
       uSurfaceColor: {
-        value: new THREE.Color("#00a8cc").convertLinearToSRGB(),
+        value: new THREE.Color("#00a8cc").convertSRGBToLinear(),
       },
       uFoamColor: {
-        value: new THREE.Color("#e8f4f8").convertLinearToSRGB(),
+        value: new THREE.Color("#e8f4f8").convertSRGBToLinear(),
       },
       uShininess: { value: shininess },
     }),
